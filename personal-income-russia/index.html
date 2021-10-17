@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>СОЦИАЛЬНОЕ НЕРАВЕНСТВО В РОССИИ</title>
+    <link rel="canonical" href="https://labs.maximandreev.de/personal-income-russia/">
+    <!-- Search Engine -->
+    <meta property="description" content="Социальное неравество в России">
+    <meta property="image" content="https://labs.maximandreev.de/images/personal_income_russia_2020_entry_1400_930.jpg">
+    <!-- Schema.org for Google -->
+    <meta itemprop="name" content="Социальное неравенство в России">
+    <meta itemprop="description" content="Узнайте с помощью этого калькулятора какое место вы занимаете в российском обществе">
+    <meta itemprop="image" content="https://labs.maximandreev.de/images/personal_income_russia_2020_entry_1400_964.jpg">
+
+    <!-- Open Graph general (Facebook, Pinterest & Google+) -->
+    <meta property="og:title" content="Социальное неравенство в России">
+    <meta property="og:description" content="Узнайте с помощью этого калькулятора какое место вы занимаете в российском обществе">
+    <meta property="og:image" content="https://labs.maximandreev.de/images/personal_income_russia_2020_entry_1400_930.jpg">
+    <meta property="og:url" content="https://labs.maximandreev.de/personal-income-russia/">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:title" content="Социальное неравенство в России">
+    <meta property="twitter:description" content="Узнайте с помощью этого калькулятора какое место вы занимаете в российском обществе">
+</head>
+<body>
+    <header>
+        <h1>СОЦИАЛЬНОЕ НЕРАВЕНСТВО В РОССИИ</h1>
+        <p><i>Узнайте с помощью этого калькулятора какое место вы занимаете в российском обществе.</i></p>
+    </header>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="/js/dataset.js"></script>
+    <div class="content-text wrapper-column-centered">
+        <h2>Что это?!</h2>
+        <p>В среднем житель России имеет доход <b>35 700 ₽</b> в месяц. Эта цифра мало что говорит о благосостоянии населения. Если взять двух человек — одного с доходом <b>70 000 ₽</b> и <b>1400 ₽</b>, их средний ежемесячный доход будет равен ровно <b>35 700 ₽</b>.</p>
+        <p>Чтобы наглядно продемонстрировать как доходы распределяются по населению России, воспользуемся простым графическим представлением:
+        </p>
+    </div>
+    <div class="legend">
+        <svg id="legend-svg-picture" width="150px" viewBox="0 0 260 260" style="padding-top:7px;">
+            <circle cx="120.919" cy="138.519" r="120.919" style="fill:#80b4a3;"/>
+            <circle cx="120.919" cy="138.519" r="40.073" style="fill:none;stroke:#fff;stroke-width:3.39px;"/>
+            <circle cx="120.919" cy="138.519" r="63.361" style="fill:none;stroke:#fff;stroke-width:3.39px;"/>
+            <circle cx="120.919" cy="138.519" r="81.799" style="fill:none;stroke:#fff;stroke-width:3.39px;"/>
+            <circle cx="120.919" cy="138.519" r="99.495" style="fill:none;stroke:#fff;stroke-width:3.39px;"/>
+            <circle cx="120.919" cy="138.519" r="15.42" style="fill:#4d4d4d;"/>
+            <path d="M120.919,138.519c40.902,-76.82 136.904,-119.97 197.866,-120.919" style="fill:none;stroke:#4d4d4d;stroke-width:2.08px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"/>
+        </svg>
+        <div class="legend-description">
+            <p style="color: var(--color-black)">Каждый чёрный кружок соответствует доле населения России со схожими доходами</p>
+            <p style="color: var(--color-green-dark)">Размер внешнего круга пропорционален среднему доходу этой группы людей</p>
+        </div>
+    </div>
+    <div class="content-text wrapper-column-centered">
+        <p>Кружки сортируются таким образом, что группы с наибольшими доходами находятся в центре, а с наименьшими — на периферии.</p>
+    </div>
+    <div class="wrapper-main">
+        <div class="wrapper-left">
+            <div class="display">
+                <svg id="main-svg" width="100%", height="100%"></svg>
+            </div>
+            <div id="display-info-general", class="wrapper-column-centered">
+                <p>В России в <b>2020-м</b> году проживало <b><span id="population-label"></span> млн.</b> человек.</p>
+                <p>Среднедушевой доход: <b><span id="income-mean-label"></span> к₽</b> в месяц.</p>
+                <p>Медианный доход: <b><span id="income-median-label"></span> к₽</b> в месяц.</p>
+                <p>Модальный доход: <b><span id="income-modal-label"></span> к₽</b> в месяц.</p>
+            </div>
+            <div id="display-info-detailed", class="wrapper-column-centered">
+                <p>Выбранный среднедушевой доход: <b style="color:var(--color-yellow);"><span id="income-range"></span> к₽</b></p>
+                <p>У <b style="color:var(--color-green);"><span id="population-higher-income"></span>%</b> населения доход больше.</p>
+                <p>В сумме у них <b style="color:var(--color-green);"><span id="total-higher-income"></span>%</b> общего дохода.</p>
+                <p>У <b style="color:var(--color-red);"><span id="population-lower-income"></span>%</b> населения доход меньше.</p>
+                <p>В сумме у них <b style="color:var(--color-red);"><span id="total-lower-income"></span>%</b> общего дохода.</p>
+                <p>У <b style="color:var(--color-yellow);"><span id="current-population"></span>%</b> населения примерно столько.</p>
+                <p>В сумме у них <b style="color:var(--color-yellow);"><span id="current-total-income"></span>%</b> общего дохода.</p>
+            </div>
+        </div>
+        <div class="wrapper-right">
+            <div class="wrapper-income wrapper-column-centered">
+                <h2>Уровень дохода</h2>
+                <label class="label-explanation">Установите уровень вашего ежемесячного дохода</label>
+                <div class="slider-container">
+                    <div class="slider-dash" id="income-slider-dash">
+                        
+                    </div>
+                    <output class="slider-value" id="slider-value-text">10</output>
+                    <input type="range" min="0" max="100" value="40" id="incomeSlider" class="slider">
+                    
+                    <div class="slider-text">
+                        <p>0</p>
+                        <p>100 к₽</p>
+                    </div>
+                </div>
+                <label class="label-explanation">или выберете примерный уровень ваших доходов</label>
+                <div class="wrapper-radio">
+                    <label class="radio-button" for="income-low">
+                        <input type="radio" id="income-low" name="income-level" value="low">
+                        <span class="radio-circle-background">
+                            <span class="radio-circle-field">
+                                <svg width="60%" height="100%" viewBox="0 0 110 110" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><circle cx="54.976" cy="54.976" r="54.976" style="fill:#9fc6b9;"/><circle cx="54.976" cy="54.976" r="13.499" style="fill:#4d4d4d;"/></svg>
+                            </span>
+                        </span>
+                        низкий
+                    </label>
+                    <label class="radio-button" for="income-medium">
+                        <input type="radio" id="income-medium" name="income-level" value="medium">
+                        <span class="radio-circle-background">
+                            <span class="radio-circle-field">
+                                <svg width="60%" height="100%" viewBox="0 0 110 110" style="fill-rule:evenodd;clip-rule:evenodd;"><circle cx="54.976" cy="54.976" r="54.976" style="fill:#9fc6b9;"/><circle cx="54.976" cy="54.976" r="13.499" style="fill:#4d4d4d;"/><circle cx="54.976" cy="54.976" r="34.63" style="fill:none;stroke:#fff;stroke-width:2.93px;"/></svg>
+                            </span>
+                        </span>
+                        средний
+                    </label>
+                    <label class="radio-button" for="income-upper-medium">
+                        <input type="radio" id="income-upper-medium" name="income-level" value="upper-medium">
+                        <span class="radio-circle-background">
+                            <span class="radio-circle-field">
+                                <svg width="60%" height="100%" viewBox="0 0 110 110" style="fill-rule:evenodd;clip-rule:evenodd;"><circle cx="54.976" cy="54.976" r="54.976" style="fill:#9fc6b9;"/><circle cx="54.976" cy="54.976" r="13.499" style="fill:#4d4d4d;"/><circle cx="54.976" cy="54.976" r="28.222" style="fill:none;stroke:#fff;stroke-width:2.39px;"/><circle cx="54.976" cy="54.976" r="44.623" style="fill:none;stroke:#fff;stroke-width:2.39px;"/></svg>
+                            </span>
+                        </span>
+                        выше среднего
+                    </label>
+                    <label class="radio-button" for="income-high">
+                        <input type="radio" id="income-high" name="income-level" value="high">
+                        <span class="radio-circle-background">
+                            <span class="radio-circle-field">
+                                <svg width="60%" height="100%" viewBox="0 0 110 110" style="fill-rule:evenodd;clip-rule:evenodd;"><circle cx="54.976" cy="54.976" r="54.976" style="fill:#9fc6b9;"/><circle cx="54.976" cy="54.976" r="13.499" style="fill:#4d4d4d;"/><circle cx="54.976" cy="54.976" r="24.637" style="fill:none;stroke:#fff;stroke-width:2.09px;"/><circle cx="54.976" cy="54.976" r="38.955" style="fill:none;stroke:#fff;stroke-width:2.09px;"/><circle cx="54.976" cy="54.976" r="50.29" style="fill:none;stroke:#fff;stroke-width:2.09px;"/></svg>
+                            </span>
+                        </span>
+                        высокий
+                    </label>
+                    <label class="radio-button" for="income-very-high">
+                        <input type="radio" id="income-very-high" name="income-level" value="very-high">
+                        <span class="radio-circle-background">
+                            <span class="radio-circle-field">
+                                <svg width="60%" height="100%" viewBox="0 0 110 110" style="fill-rule:evenodd;clip-rule:evenodd;"><circle cx="54.976" cy="54.976" r="54.976" style="fill:#9fc6b9;"/><circle cx="54.976" cy="54.976" r="13.499" style="fill:#4d4d4d;"/><circle cx="54.976" cy="54.976" r="20.255" style="fill:none;stroke:#fff;stroke-width:1.72px;"/><circle cx="54.976" cy="54.976" r="32.026" style="fill:none;stroke:#fff;stroke-width:1.72px;"/><circle cx="54.976" cy="54.976" r="41.346" style="fill:none;stroke:#fff;stroke-width:1.72px;"/><circle cx="54.976" cy="54.976" r="50.29" style="fill:none;stroke:#fff;stroke-width:1.72px;"/></svg>
+                            </span>
+                        </span>
+                        очень высокий
+                    </label>
+                </div>
+            </div>
+            <div class="wrapper-population wrapper-column-centered">
+                <h2>Масштаб</h2>
+                <div class="wrapper-radio">
+                    <label class="radio-button" for="circle-scale-1">
+                        <input type="radio" id="circle-scale-1" name="circle-scale" value="scale-level-1">
+                        <span class="radio-circle-background">
+                            <span class="radio-circle-field">
+                                <svg width="7.3%" height="100%" viewBox="0 0 172 172" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><circle cx="85.902" cy="85.902" r="85.902" style="fill:#4d4d4d;"/></svg>
+                            </span>
+                        </span>
+                        100 тыс. чел.
+                    </label>
+                    <label class="radio-button" for="circle-scale-2">
+                        <input type="radio" id="circle-scale-2" name="circle-scale" value="scale-level-2" checked>
+                        <span class="radio-circle-background">
+                            <span class="radio-circle-field">
+                                <svg width="22%" height="100%" viewBox="0 0 172 172" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><circle cx="85.902" cy="85.902" r="85.902" style="fill:#4d4d4d;"/></svg>
+                            </span>
+                        </span>
+                        1 млн. чел.
+                    </label>
+                    <label class="radio-button" for="circle-scale-3">
+                        <input type="radio" id="circle-scale-3" name="circle-scale" value="scale-level-3">
+                        <span class="radio-circle-background">
+                            <span class="radio-circle-field">
+                                <svg width="70%" height="100%" viewBox="0 0 172 172" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><circle cx="85.902" cy="85.902" r="85.902" style="fill:#4d4d4d;"/></svg>
+                            </span>
+                        </span>
+                        10 млн. чел.
+                    </label>
+                </div>
+            </div>
+            <div class="wrapper-groups wrapper-column-centered">
+                <h2>Группировка</h2>
+                <div class="wrapper-radio">
+                    <label class="radio-button" for="circle-group-1">
+                        <input type="radio" id="circle-group-1" name="circle-group" value="one-group" checked>
+                        <span class="radio-circle-background">
+                            <span class="radio-circle-field">
+                                <svg width="60%" height="100%" viewBox="0 0 110 110" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><circle cx="54.976" cy="54.976" r="54.976" style="fill:#9fc6b9;"/><circle cx="54.976" cy="54.976" r="13.499" style="fill:#4d4d4d;"/></svg>
+                            </span>
+                        </span>
+                        Объединить
+                    </label>
+                    <label class="radio-button" for="circle-group-2">
+                        <input type="radio" id="circle-group-2" name="circle-group" value="groups-5">
+                        <span class="radio-circle-background">
+                            <span class="radio-circle-field">
+                                <svg width="70%" height="100%" viewBox="0 0 131 144" ><circle cx="72.405" cy="19.346" r="19.346" style="fill:#80b4a3;"/><circle cx="72.405" cy="19.346" r="8.999" style="fill:#4d4d4d;"/><circle cx="101.439" cy="67.726" r="29.034" style="fill:#c5ddd5;"/><circle cx="72.405" cy="118.662" r="25.322" style="fill:#b3d3c8;"/><circle cx="34.822" cy="67.726" r="34.822" style="fill:#d3e5df;"/><circle cx="29.971" cy="119.923" r="16.03" style="fill:#d9e9e3;"/><circle cx="34.822" cy="67.726" r="8.999" style="fill:#4d4d4d;"/><circle cx="101.439" cy="67.726" r="8.999" style="fill:#4d4d4d;"/><circle cx="72.405" cy="118.662" r="8.999" style="fill:#4d4d4d;"/><circle cx="29.971" cy="119.923" r="8.999" style="fill:#4d4d4d;"/></svg>
+                            </span>
+                        </span>
+                        Разделить на классы
+                    </label>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        "use strict"
+
+        let incomeTotal = 62700.8e9; //RUB
+        let populationTotal = 0.5*(146748590+146171015); //(0.5*(2020+2021))
+
+        let incomePerCapMed = 27036.4;
+        let incomeModal = 15527.4;
+        let incomeMean = 35675.8;
+
+        let lowIncome = 16000.0;
+        let middleIncome = 40000.0;
+        let highIncome = 70000.0;
+        let veryHighIncome = 100000.0;
+
+        let currentIncome, incomeL=0.0, incomeR=0.0;
+        //HTML
+        document.getElementById('population-label').innerHTML = Math.round(populationTotal/1e5)/1e1;
+        
+        
+
+        document.getElementById('income-mean-label').innerHTML = Math.round(incomeMean/1e2)/1e1;
+        document.getElementById('income-modal-label').innerHTML = Math.round(incomeModal/1e2)/1e1;
+        document.getElementById('income-median-label').innerHTML = Math.round(incomePerCapMed/1e2)/1e1;
+        
+        //CONTROLS
+        //Slider
+        var slider = document.getElementById("incomeSlider");
+        var incomeSet = document.getElementById("income-set-span");
+        var incomeRangeSpan = document.getElementById("income-range");
+        var currentPopulationSpan = document.getElementById("current-population");
+        var currentTotalIncomeSpan = document.getElementById("current-total-income");
+        var populationLowerIncomeSpan = document.getElementById("population-lower-income");
+        var totalLowerIncomeSpan = document.getElementById("total-lower-income");
+        var populationHigherIncomeSpan = document.getElementById("population-higher-income");
+        var totalHigherIncomeSpan = document.getElementById("total-higher-income");
+        var sliderDashes = document.getElementsByClassName("dash");
+        var sliderValueText = document.getElementById("slider-value-text");
+
+        var sliderDash = document.getElementById("income-slider-dash");
+        for (let i = 0; i<=100; i++) {
+            sliderDash.innerHTML += '<span class="dash" value="'+ i +'" ></span>';
+        }
+
+        document.getElementById("display-info-detailed").style.display = "none"
+        
+        //Income Groups
+        var incomeGroupsRadio = document.getElementsByName("income-level")
+        
+        //Scale
+        var scaleRadio = document.getElementsByName("circle-scale")
+        let scaleLevel = "scale-level-2"
+
+        //Split into groups
+        var groupRadio = document.getElementsByName("circle-group")
+        let split = false
+
+        var data = generateData(scaleLevel, split);
+        let width = 600;
+        let height = 500;
+
+        let format = d3.format(",d")
+
+        let color = d => {return d3.hsl(160, 0.26, 0.9-d.incomeMean/200000*0.4)}
+
+        drawChart(data)
+        updateSpans()
+        
+
+        function calcPopulation(incomeL, incomeR, scaleLevel) {
+            let data = generateData(scaleLevel, false).children[0].children
+            let population = [0, 0];
+            for (let i in data) {
+                if (data[i].incomeMax < incomeL) {
+                    population[0] += data[i].population;
+                }
+                if (data[i].incomeMin < incomeR) {
+                    population[1] += data[i].population;
+                }
+            }
+            return population;
+        }
+        function calcTotalIncome(incomeL, incomeR, scaleLevel) {
+            let data = generateData(scaleLevel, false).children[0].children
+            let income = [0, 0];
+            for (let i in data) {
+                if (data[i].incomeMax < incomeL) {
+                    income[0] += data[i].populationIncomeYear;
+                }
+                if (data[i].incomeMin < incomeR) {
+                    income[1] += data[i].populationIncomeYear;
+                }
+            }
+            return income;
+        }
+        //currentPopulationSpan.innerHTML = calcPopulation(incomeL, incomeR, scaleLevel);
+        function updateSpans() {
+
+            if ((Math.round(incomeR/1e3) - Math.round(incomeL/1e3)) < 1.0) {
+                incomeRangeSpan.innerHTML = Math.round(incomeL/1e3)
+            } else {
+                if (!incomeR) {
+                    incomeRangeSpan.innerHTML = "более " + Math.round(incomeL/1e3);
+                } else {
+                    incomeRangeSpan.innerHTML = "от " + Math.round(incomeL/1e3) + " до " + Math.round(incomeR/1e3);
+                }
+            }
+
+            let populationL = calcPopulation(incomeL, incomeR, scaleLevel)[0]
+            let populationR = calcPopulation(incomeL, incomeR, scaleLevel)[1]
+            currentPopulationSpan.innerHTML = Math.round((populationR - populationL)/populationTotal*1000.0)/10;
+
+            populationLowerIncomeSpan.innerHTML = Math.round(populationL/populationTotal*1000.0)/10;
+            populationHigherIncomeSpan.innerHTML = Math.round((populationTotal-populationR)/populationTotal*1000.0)/10;
+
+            let totalIncomeL = calcTotalIncome(incomeL, incomeR, scaleLevel)[0]
+            let totalIncomeR = calcTotalIncome(incomeL, incomeR, scaleLevel)[1]
+            if (totalIncomeR) {
+                currentTotalIncomeSpan.innerHTML = Math.round((totalIncomeR - totalIncomeL)/incomeTotal*1000.0)/10;
+            } else {
+                currentTotalIncomeSpan.innerHTML = Math.round((incomeTotal- totalIncomeL)/incomeTotal*1000.0)/10;
+            }
+            
+            totalLowerIncomeSpan.innerHTML = Math.round(totalIncomeL/incomeTotal*1000.0)/10;
+            totalHigherIncomeSpan.innerHTML = Math.round((incomeTotal-totalIncomeR)/incomeTotal*1000.0)/10;
+
+            if (incomeR<=0) {
+                document.getElementById("display-info-general").style.display = "flex"
+                document.getElementById("display-info-detailed").style.display = "none"
+            } else {
+                document.getElementById("display-info-general").style.display = "none"
+                document.getElementById("display-info-detailed").style.display = "flex"
+            }
+            
+            //slider dash update
+            for (let i= 0; i < sliderDashes.length; i++) {
+                
+                if (incomeR==0) { //reset
+                    sliderDashes[i].style.height = "20px";
+                    //sliderDashes[i].style.background = "#d3d3d3";
+                    sliderDashes[i].style.background = "hsl(160, 26%," + 100*(0.9 - Math.round(sliderDashes[i].getAttribute("value"))/200*0.4) + "%)";
+                } else {
+                    if ((Math.round(sliderDashes[i].getAttribute("value")) == Math.round(incomeR/1000.0)) || (Math.round(sliderDashes[i].getAttribute("value")) == Math.round(incomeL/1000.0)) ) {
+                        sliderDashes[i].style.height = "30px";
+                        sliderDashes[i].style.background = "#FFD333";
+                    } else {
+                        if (Math.round(sliderDashes[i].getAttribute("value")) > Math.round(incomeR/1000.0)) {
+                            sliderDashes[i].style.background = "var(--color-green)";
+                        } else if (Math.round(sliderDashes[i].getAttribute("value")) < Math.round(incomeL/1000.0)) {
+                            sliderDashes[i].style.background = "var(--color-red)";
+                        } else {
+                            sliderDashes[i].style.background = "var(--color-yellow)";
+                        }
+                        sliderDashes[i].style.height = "15px";
+                    }
+                }
+            }
+            //slider text update
+            sliderTextUpdate(incomeL, incomeR);
+        }
+        
+        function sliderTextUpdate(incomeL, incomeR) {
+            let currentIncome
+            
+            if ((Math.round(incomeR/1e3) - Math.round(incomeL/1e3)) <= 1.0) {
+                currentIncome = Math.round(incomeR/1000.0)
+                sliderValueText.style.left =  5+0.92*currentIncome + "%";
+                sliderValueText.innerHTML = currentIncome + " к₽";
+            } else {
+                currentIncome = Math.round(0.5*(incomeL + incomeR)/1000.0)
+                sliderValueText.style.left =  0.94*Math.round(currentIncome) + "%";
+                sliderValueText.innerHTML = currentIncome + " к₽";
+            }
+            
+            if (Math.round(currentIncome)>=100 ||  Math.round(currentIncome)<=0) {
+                sliderValueText.style.display = "none";
+            } else {
+                sliderValueText.style.display = "flex";
+            }
+            slider.value = currentIncome;
+        }
+
+        slider.oninput = function() {
+            currentIncome = this.value;
+
+            if (currentIncome <= 0.0) {
+                incomeL = 0.0;
+                incomeR = 0.0;
+                drawChart(data)
+            } else {
+                incomeL = currentIncome*1000.0 - 499.9*0.0;
+                incomeR = currentIncome*1000.0 + 499.9*0.0;
+                fillIncome(incomeL, incomeR)
+            }
+            
+
+            for (var i = 0, length = incomeGroupsRadio.length; i<length; i++) {
+                incomeGroupsRadio[i].checked = false;
+            }
+
+            
+            updateSpans();
+
+        }
+
+        for (var i = 0, length = incomeGroupsRadio.length; i<length; i++) {
+            incomeGroupsRadio[i].onclick = function() {
+                if (this.value == "low") {
+                    incomeL = 0.0
+                    incomeR = 16000.0
+                } else if (this.value == "medium") {
+                    incomeL = 16001.0
+                    incomeR = 40000.0
+                } else if (this.value == "upper-medium") {
+                    incomeL = 40001.0
+                    incomeR = 70000.0
+                } else if (this.value == "high") {
+                    incomeL = 70001.0
+                    incomeR = 100000.0
+                } else if (this.value == "very-high") {
+                    incomeL = 100001.0
+                    incomeR = 100e6
+                }
+                fillIncome(incomeL, incomeR);
+                updateSpans();
+            }
+        }
+        
+        for (var i = 0, length = scaleRadio.length; i<length; i++) {
+            scaleRadio[i].onclick = function() {
+                scaleLevel = this.value
+                data = generateData(scaleLevel, split);
+                drawChart(data)
+                if (incomeR>0) {fillIncome(incomeL, incomeR)};
+                updateSpans();
+            }
+        }
+
+        for (var i = 0, length = groupRadio.length; i<length; i++) {
+            groupRadio[i].onclick = function() {
+                if (this.value == "one-group") {
+                    split = false
+                } else if (this.value == "groups-5") {
+                    split = true
+                }
+                data = generateData(scaleLevel, split);
+                drawChart(data)
+                if (incomeR>0) {fillIncome(incomeL, incomeR)};
+                updateSpans();
+            }
+        }
+
+        function drawChart(data) {
+            let pack = data => d3.pack()
+                .size([width - 2, height - 2])
+                .padding(1)
+                (d3.hierarchy(data)
+                .sum(d => d.populationIncomeYear)
+                .sort((a, b) => d3.descending(a.value, b.value)));
+
+            let root = pack(data);
+
+            d3.selectAll("g").remove()
+            
+            var svg = d3.select("#main-svg")
+            //const svg = d3.create("svg")
+                .attr("viewBox", [0, 0, width, height])
+                .attr("font-size", 10)
+                .attr("font-family", "sans-serif")
+                .attr("text-anchor", "middle");
+
+            const leaf = svg.selectAll("g")
+                .data(root.descendants())
+                .join("g")
+                .attr("transform", d => `translate(${d.x + 1},${d.y + 1})`);
+
+            let circle = leaf.append("circle")
+                .attr("incomeMin", d => d.data.incomeMin)
+                .attr("incomeMean", d => d.data.incomeMean)
+                .attr("incomeMax", d => d.data.incomeMax)
+                .attr("population", d => d.data.population)
+                .attr("checked", "false")
+                .style("transition", "all 0.5s ease")
+                .attr("class", d => {
+                    let circleClass
+                    if (d.children) {
+                        circleClass = "background"
+                    } else {
+                        circleClass = "filled clickable"}
+                    return circleClass
+                })
+                .attr("r", d => d.r)
+                //.attr("stroke", d => d.children ? "gray" : "none") //add color for group circles
+                .attr("stroke", "none")
+                .attr("fill-opacity", 1.0)
+                .attr("fill", d => {
+                    let fill
+                    if (d.children) {
+                        fill = "white"
+                    } else {
+                        fill = color(d.data)
+                    }
+                    return fill
+                });
+            
+            let currentCircle = undefined;
+            let prevCircle = undefined;
+                
+            function selectCircle(d) {
+                
+                currentCircle = d3.select(this).select(".filled")
+
+                if (currentCircle.attr("checked")=="true") {      
+                    fillDefault();
+                    currentCircle.attr("checked", "false")
+                    incomeL = 0.0;
+                    incomeR = 0.0;
+                    updateSpans();
+                } else {
+                    
+                    incomeL = Math.round(currentCircle.attr("incomeMin"))+1.0;
+                    incomeR = Math.round(currentCircle.attr("incomeMax"))-1.0;
+                    currentIncome = Math.round(currentCircle.attr("incomeMean")/1e3)
+
+                    //currentIncome = Math.round(0.5*(incomeL + incomeR)/1e3)
+                    //incomeSet.innerHTML = Math.round(currentCircle.attr("income")/1000);
+                    
+                    prevCircle = currentCircle;
+                    fillIncome(incomeL, incomeR)
+                    currentCircle.attr("checked", "true")
+                    updateSpans();
+                    currentPopulationSpan.innerHTML = Math.round(currentCircle.attr("population")/populationTotal*1000.0)/10.0;
+                }
+                for (var i = 0, length = incomeGroupsRadio.length; i<length; i++) {
+                    incomeGroupsRadio[i].checked = false;
+                }
+                
+            }
+
+            let currentPath = svg.selectAll("g")
+            currentPath.on("click", selectCircle)
+            
+            
+
+            leaf.append("circle")
+                .attr("r", d => {return (d.data.incomeMean>0.0) ? Math.sqrt(lowIncome/d.data.incomeMean)*d.r : 0})
+                .attr("stroke", "white")
+                .attr("stroke-width", d => {
+                    let width = 0.0
+                    if (d.data.incomeMean>lowIncome) {
+                    width = 0.5
+                    }
+                    return width
+                })
+                .attr("fill-opacity", 0.0)
+                .attr("fill", "none");
+            leaf.append("circle")
+                .attr("r", d => {return (d.data.incomeMean>0.0) ? Math.sqrt(middleIncome/d.data.incomeMean)*d.r : 0})
+                .attr("stroke", "white")
+                .attr("stroke-width", d => {
+                    let width = 0.0
+                    if (d.data.incomeMean>middleIncome) {
+                        width = 0.5
+                    }
+                    return width
+                })
+                .attr("fill-opacity", 0.0)
+                .attr("fill", "none");
+
+            leaf.append("circle")
+                .attr("r", d => {return (d.data.incomeMean>0.0) ? Math.sqrt(highIncome/d.data.incomeMean)*d.r : 0})
+                .attr("stroke", "white")
+                .attr("stroke-width", d => {
+                    let width = 0.0
+                    if (d.data.incomeMean>highIncome) {
+                    width = 0.5
+                    }
+                    return width
+                })
+                .attr("fill-opacity", 0.0)
+                .attr("fill", "none");
+
+            leaf.append("circle")
+                .attr("r", d => {return (d.data.incomeMean>0.0) ? Math.sqrt(veryHighIncome/d.data.incomeMean)*d.r : 0})
+                .attr("stroke", "white")
+                .attr("stroke-width", d => {
+                    let width = 0.0
+                    if (d.data.incomeMean>veryHighIncome) {
+                    width = 0.5
+                    }
+                    return width
+                })
+                .attr("fill-opacity", 0.0)
+                .attr("fill", "none");
+
+            leaf.append("circle")
+                .attr("class", "clickable")
+                .attr("r", d => {
+                    let scale = d3.scaleSqrt()
+                    .domain([0, 146000000])
+                    .range([0, 50]);
+                    return scale(d.data.population)
+                })
+                .attr("fill", d3.hsl(360, 0, 0.3));
+        }
+        function fillDefault() {
+            d3.selectAll(".filled")
+            .attr("fill", d => {
+                let fill
+                if (d.children) {
+                    fill = "none"
+                } else {
+                    fill = color(d.data)
+                return fill
+                }});
+            }
+        function fillIncome(bLeft, bRight) {
+            d3.selectAll(".filled")
+            .attr("fill", d => {
+                let fill
+                if (d.children) {
+                    fill = "none";
+                } else {
+                    if (d.data.incomeMin > bRight) {
+                        fill = d3.hsl(160, 0.25, 0.7)
+                    } else if (d.data.incomeMax < bLeft) {
+                        fill = d3.hsl(10, 0.98, 0.8)
+                    } else {
+                        fill = d3.hsl(47, 1.0, 0.6)
+                    }
+                }
+                return fill
+            });
+        }
+    </script>
+    <div class="content-text wrapper-column-centered">
+        <h2>Откуда эти данные?</h2>
+        <p>Это официальные <a href="https://rosstat.gov.ru/folder/13397">результаты исследований Росстата</a> об уровне жизни населения России. На их сайте приведено довольно много данных, но неподготовленному человеку довольно трудно в них разобраться. На этом сайте приведена только лишь наглядная иллюстрация этих данных.</p>
+        <h2>Что здесь понимается под доходом? Это зарплата?</h2>
+        <p>Не только. Под доходами понимаются любые денежные поступления включая доходы от предпринимательской деятельности, пенсии, социальные пособия, стипендии и даже проценты со сберегательного счёта. Однако сюда не относятся поступления от взятых вами кредитов (даже если вы не собираетесь их отдавать).</p>
+        <p>Чтобы определить среднедушевой доход вашей семьи, нужно сложить все ваши доходы и разделить на количество членов семьи.</p>
+        <p>Например, среднедушевой доход полной семьи с двумя детьми, где один из родителей получает зарплату 60 к₽ чистыми, а второй фрилансит в среднем на 40 к₽ в месяц, будет составлять (60 + 40)/4 = 25 к₽.</p>
+        <h2>Так это доход семьи? Мою отдельно живущую бабушку сюда тоже отнести?</h2>
+        <p>Нет, Росстат оценивает доходы <i>домохозяйств</i>. Под членами домохозяйства понимаются все проживающие в одном жилом помещении люди, вне зависимости от их родства, при условии, что они совместно обеспечивают себя пищей и всем необходимым для жизни.</p>
+        <p>Проще говоря, если вы с кем-то совместно снимаете квартиру и не подписываете продукты в холодильнике, вы считаетесь одним домохозяйством вне зависимости от степени вашей близости. А живущая отдельно от вас бабушка будет считаться другим отдельным домохозяйством, даже если регулярно подкармливает вас пирожками.</p>
+        <p>Подробное описание понятия домохозяйства можно найти в <a href="https://rosstat.gov.ru/storage/mediabank/met-form-dox_2017.pdf">методике Росстата</a>.</p>
+        <h2>Откуда Росстату знать какой у меня доход? Я ему не докладываюсь.</h2>
+        <p>Росстат анализирует официальную статистическую информацию по всем выплатам населению за год: зарплаты, дивиденды, пенсии, стипендии и так далее. Если разделить полученную сумму на всё население России и на 12 месяцев, получится как раз ежемесячный среднедушевой доход.</p>
+        <h2>Понятно, значит моя серая зарплата в эту статистику не попадает, и формально я нищий?</h2>
+        <p>Не совсем. Если бы всё считалось настолько просто, расходы населения существенно превосходили бы доходы. В Росстате об этом знают, поэтому в рамках исследования производится дооценка объёмов доходов с учётом неформального сектора экономики.</p>
+        <p>Таким образом, чтобы выпасть из статистики, доходы нужно скрывать не только вам, но и всем, с кем вы расплачиваетесь. Что уже гораздо менее вероятно.</p>
+        <h2>Допустим, общий объём доходов можно более или менее адекватно оценить. Но как понять как эти доходы распределены по населению?</h2>
+        <p>Для этого Росстат по всей России проводит выборочные обследования домохозяйств. Выбирается около 50 тыс. добровольцев, которые наилучшим образом отражают население России. Далее они в течение одного квартала фиксируют в журналах все свои доходы и расходы.</p>
+        <p>Получившиеся результаты обрабатываются и распространяются на всё население. При этом используются статистические имитационные модели, поэтому даже если кто-то жульничал во время ведения журнала в ту или иную сторону, его результаты не будут учитываться, т.к. наверняка будут выбиваться из заложенного в модель поведения.</p>
+        <h2>Ага, модели! Значит это всё описывает сферическое население в вакууме?</h2>
+        <p>Не совсем. Конечно, некоторые учёные <a href="https://www.elibrary.ru/item.asp?id=26463611">критикуют</a> использованную Росстатом модель <a href="https://ru.wikipedia.org/wiki/Логнормальное_распределение">логнормального распределения</a> населения по доходам, т.к. она недостаточно точно описывает особенности распределения высоких доходов.</p>
+        <p>Грубо говоря, в реальности людей с доходом выше 10 млн. рублей в месяц может быть больше, чем с доходом 1 млн. в месяц, в то время как в модели заложено поведение: „чем доход больше наиболее часто встречающейся (модельной) величины, тем у меньшего числа людей он встречается“</p>
+        <p>По этой причине, если вы принадлежите к тем нескольким процентам счастливчиков со среднедушевым доходом выше 100 к₽ в месяц, наш калькулятор мало вам поможет. Для доходов ниже эта модель позволяет достаточно точно оценить ваше положение в обществе.</p>
+        <h2>Послушайте, мы знаем какая в России статистика. С чего вы взяли, что Росстат просто не подделал все данные?</h2>
+        <p>Теоретически это возможно. Власти России систематически манипулируют статистикой в целях пропаганды, как, например, это <a href="https://meduza.io/feature/2021/07/20/razdavaya-qr-kody-mintsifry-sluchayno-rassekretilo-masshtaby-epidemii-kovida-v-rossii-eti-tsifry-v-pyat-raz-vyshe-ofitsialnyh">происходит</a> в случае с коронавирусом. Часто это делается не по указке сверху, а на местах, чтобы выполнить какой-нибудь целевой показатель.</p>
+        <p>Однако результаты можно перепроверить по данным других статистических ведомств. В случае с тем же коронавирусом выявить манипуляции властей <a href="https://zona.media/coronadeaths">помогли</a> данные по демографии от того же Росстата. Дело в том, что данные по численности населения (включая смертность) нужны государству не только для того, чтобы рапортовать о победе над коронавирусом, но и затем, чтобы знать сколько можно дособрать налогов или спрогнозировать сколько нужно выплатить пенсий.</p>
+        <p>В случае с учётом доходов населения ведомству трудно незаметно завысить их номинальное значение, т.к. это потянет за собой одну нестыковку за другой. Так, например, завысив доходы Росстат ухудшит показатели налоговой службы, а нестыковка завышенных доходов с расходами формально увеличит размер теневой экономики, что тоже не украсит картину. Поэтому Росстат скорее будет манипулировать составом потребительской корзины и жонглировать методиками определения прожиточного минимума, чтобы власти могли рапортовать о борьбе с бедностью, нежели с общим уровнем доходов.</p>
+        <p>Тем не менее, данные Росстата по распределению доходов не всегда стыкуются с результатами исследований независимых организаций. Так, например, опросы Левада-центра <a href="https://www.levada.ru/2021/03/26/otsenka-neobhodimogo-prozhitochnogo-minimuma-sredi-rossiyan-2/">говорят</a> о величине среднедушевого дохода в районе 17,7 к₽ в месяц против официальных 35,7 к₽. Однако, нужно понимать, что здесь речь идёт о субъективной самооценке респондентов, согласившихся пройти опрос на дому. Эти данные не учитывают реального объёма денежных поступлений населения, и я бы скорее интерпретировал их так: „средний россиянин, согласившийся пустить к себе домой интервьюера, предпочитает сообщить ему о доходе равном в среднем 17,7 к₽“. Этот результат может характеризовать не только особенности распределения доходов россиян, но и особенности доходов россиян, участвующих в социологических опросах на дому</p>
+        <p>С другой стороны, <a href="https://www.gazeta.ru/business/2021/07/01/13692236.shtml?rcmrclid=adf27b80e04ca236">исследования</a> аналитиков FinExpertiza, в которых говорится, что доходами менее 10 к₽ располагает около 9,1% россиян согласуются официальными цифрами.</p>
+        <p>В целом, конечно, данные Росстата по доходам могут быть завышены, но, как бы это ни было печально, это всё ещё самый надёжный источник информации, которым мы располагаем.</p>
+    </div>
+
+    <footer>
+        <p>Copyright 👀©2021  <a href="https://maximandreev.de/">Maxim Andreev</a></p>
+        <p>🔒<a href="https://maximandreev.de/impressum-datenschutz/">Impressum/Datenschutz</a></p>
+    </footer>
+</body>
+</html>
