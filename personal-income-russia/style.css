@@ -2,8 +2,8 @@
 @font-face {
 	font-family: 'PTAstraSerifWebRegular';
 	src:
-		url('/fonts/PT-Astra-Serif/PT-Astra-Serif_Regular.woff2') format('woff2'),
-		url('/fonts/PT-Astra-Serif/PT-Astra-Serif_Regular.woff') format('woff');
+		url('../fonts/PT-Astra-Serif/PT-Astra-Serif_Regular.woff2') format('woff2'),
+		url('../fonts/PT-Astra-Serif/PT-Astra-Serif_Regular.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -12,8 +12,8 @@
 @font-face {
 	font-family: 'PTAstraSerifWebBoldItalic';
 	src:
-		url('/fonts/PT-Astra-Serif/PT-Astra-Serif_Bold-Italic.woff2') format('woff2'),
-		url('/fonts/PT-Astra-Serif/PT-Astra-Serif_Bold-Italic.woff') format('woff');
+		url('../fonts/PT-Astra-Serif/PT-Astra-Serif_Bold-Italic.woff2') format('woff2'),
+		url('../fonts/PT-Astra-Serif/PT-Astra-Serif_Bold-Italic.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -22,8 +22,8 @@
 @font-face {
 	font-family: 'PTAstraSerifWebBold';
 	src:
-		url('/fonts/PT-Astra-Serif/PT-Astra-Serif_Bold.woff2') format('woff2'),
-		url('/fonts/PT-Astra-Serif/PT-Astra-Serif_Bold.woff') format('woff');
+		url('../fonts/PT-Astra-Serif/PT-Astra-Serif_Bold.woff2') format('woff2'),
+		url('../fonts/PT-Astra-Serif/PT-Astra-Serif_Bold.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -32,8 +32,8 @@
 @font-face {
 	font-family: 'PTAstraSerifWebItalic';
 	src:
-		url('/fonts/PT-Astra-Serif/PT-Astra-Serif_Italic.woff2') format('woff2'),
-		url('/fonts/PT-Astra-Serif/PT-Astra-Serif_Italic.woff') format('woff');
+		url('../fonts/PT-Astra-Serif/PT-Astra-Serif_Italic.woff2') format('woff2'),
+		url('../fonts/PT-Astra-Serif/PT-Astra-Serif_Italic.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -42,8 +42,8 @@
 @font-face {
 	font-family: 'PTSansWebBoldItalic';
 	src:
-		url('/fonts/PT-Sans/PT-Sans_Bold-Italic.woff2') format('woff2'),
-		url('/fonts/PT-Sans/PT-Sans_Bold-Italic.woff') format('woff');
+		url('../fonts/PT-Sans/PT-Sans_Bold-Italic.woff2') format('woff2'),
+		url('../fonts/PT-Sans/PT-Sans_Bold-Italic.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -52,8 +52,8 @@
 @font-face {
 	font-family: 'PTSansWebBold';
 	src:
-		url('/fonts/PT-Sans/PT-Sans_Bold.woff2') format('woff2'),
-		url('/fonts/PT-Sans/PT-Sans_Bold.woff') format('woff');
+		url('../fonts/PT-Sans/PT-Sans_Bold.woff2') format('woff2'),
+		url('../fonts/PT-Sans/PT-Sans_Bold.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -62,8 +62,8 @@
 @font-face {
 	font-family: 'PTSansWebCaptionBold';
 	src:
-		url('/fonts/PT-Sans/PT-Sans_Caption-Bold.woff2') format('woff2'),
-		url('/fonts/PT-Sans/PT-Sans_Caption-Bold.woff') format('woff');
+		url('../fonts/PT-Sans/PT-Sans_Caption-Bold.woff2') format('woff2'),
+		url('../fonts/PT-Sans/PT-Sans_Caption-Bold.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -72,8 +72,8 @@
 @font-face {
 	font-family: 'PTSansWebCaptionRegular';
 	src:
-		url('/fonts/PT-Sans/PT-Sans_Caption-Regular.woff2') format('woff2'),
-		url('/fonts/PT-Sans/PT-Sans_Caption-Regular.woff') format('woff');
+		url('../fonts/PT-Sans/PT-Sans_Caption-Regular.woff2') format('woff2'),
+		url('../fonts/PT-Sans/PT-Sans_Caption-Regular.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -82,8 +82,8 @@
 @font-face {
 	font-family: 'PTSansWebItalic';
 	src:
-		url('/fonts/PT-Sans/PT-Sans_Italic.woff2') format('woff2'),
-		url('/fonts/PT-Sans/PT-Sans_Italic.woff') format('woff');
+		url('../fonts/PT-Sans/PT-Sans_Italic.woff2') format('woff2'),
+		url('../fonts/PT-Sans/PT-Sans_Italic.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -92,8 +92,8 @@
 @font-face {
 	font-family: 'PTSansWebRegular';
 	src:
-		url('/fonts/PT-Sans/PT-Sans_Regular.woff2') format('woff2'),
-		url('/fonts/PT-Sans/PT-Sans_Regular.woff') format('woff');
+		url('../fonts/PT-Sans/PT-Sans_Regular.woff2') format('woff2'),
+		url('../fonts/PT-Sans/PT-Sans_Regular.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
